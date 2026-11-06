@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101010">
+  <title>CineWorld - Watch Movies & Series</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+  <script src="firebase-config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+<header>
+  <div class="brand">CINE<span>WORLD</span></div>
+  <nav>
+    <a onclick="scrollToSection('home')">Home</a>
+    <a onclick="scrollToSection('movies')">Movies</a>
+    <a onclick="setCategoryByName('Series')">Series</a>
+    <a onclick="scrollToSection('promotions')">Promotions</a>
+  </nav>
+  <input id="searchInput" class="search" type="search"
+    placeholder="Search titles..." oninput="renderMovies()">
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">WELCOME TO CINEWORLD</div>
+    <h1>Stories worth watching.</h1>
+    <p>Explore movies and series in one place. Choose a title below to view its details and play available videos.</p>
+    <button class="primary" onclick="scrollToSection('movies')">Explore now</button>
+  </div>
+</section>
+
+<main>
+  <section class="section" id="promotions">
+    <div class="section-head">
+      <h2>Featured</h2>
+      <span class="muted">Discover something new</span>
+    </div>
+    <div id="promotionList" class="promo-grid">
+      <div class="empty">Loading promotions...</div>
+    </div>
+  </section>
+
+  <section class="section" id="movies">
+    <div class="section-head">
+      <h2>Explore titles</h2>
+      <span class="muted" id="resultCount"></span>
+    </div>
+
+    <div class="chips">
+      <button class="chip active" onclick="setCategory('All',this)">All</button>
+      <button class="chip" onclick="setCategory('Movie',this)">Movies</button>
+      <button class="chip" onclick="setCategory('Series',this)">Series</button>
+    </div>
+
+    <div id="movieList" class="grid">
+      <div class="empty">Connecting to CineWorld...</div>
+    </div>
+  </section>
+
+  <div class="notice">
+    CineWorld displays content made available by its administrator.
+    Only stream or share videos and artwork you own or are authorized to use.
+  </div>
+  <div id="connectionStatus" class="muted">Connecting...</div>
+</main>
+
+<footer>© <span id="year"></span> CineWorld. All rights reserved.</footer>
+
+<div class="modal" id="detailModal"
+  onclick="if(event.target===this)closeModal('detailModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('detailModal')">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<div class="modal" id="playerModal"
+  onclick="if(event.target===this)closePlayer()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closePlayer()">×</button>
+    <div class="player-wrap">
+      <h3 id="playerTitle">Now playing</h3>
+      <video id="videoPlayer" controls playsinline></video>
+      <p class="muted">If playback does not start, the video link may be unavailable or unsupported.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
